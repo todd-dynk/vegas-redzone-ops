@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { initialState, GTX_PLAYER_BASE, TRACK_FEED_PARAM, TRACK_FEED_REAL } from "./data";
+import {
+  initialState,
+  GTX_PLAYER_BASE,
+  TRACK_FEED_PARAM,
+  TRACK_FEED_REAL,
+  TRACK_AUTOPLAY_IDS,
+} from "./data";
 import type {
   AppState,
   ChannelId,
@@ -268,14 +274,21 @@ function TrackTile({
   const feedParam = TRACK_FEED_PARAM[track.id];
   const isRealFeed = TRACK_FEED_REAL[track.id];
   const feedUrl = feedParam ? `${GTX_PLAYER_BASE}?fm=${feedParam}` : null;
+  const autoplay = TRACK_AUTOPLAY_IDS.has(track.id);
+  const [hovering, setHovering] = useState(false);
+  const playing = autoplay || hovering;
   return (
-    <div className={`track-tile ${status.tone}`}>
+    <div
+      className={`track-tile ${status.tone}`}
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
+    >
       <div className="track-tile-head">
         <span className="track-name">{track.name}</span>
         {track.liveOn ? <span className="badge badge-live">LIVE · {chShort(track.liveOn)}</span> : null}
       </div>
       <div className="track-video">
-        {feedUrl ? (
+        {feedUrl && playing ? (
           <iframe
             className="track-video-iframe"
             src={feedUrl}
@@ -283,11 +296,20 @@ function TrackTile({
             allow="autoplay; encrypted-media; picture-in-picture"
             loading="lazy"
           />
+        ) : feedUrl ? (
+          <div className="track-video-poster">
+            <div className="poster-glyph">▶</div>
+            <div className="poster-label">{track.name}</div>
+            <div className="poster-hint">Hover to play</div>
+          </div>
         ) : (
           <div className="track-video-inner">No feed</div>
         )}
         {!isRealFeed && feedUrl ? (
           <span className="track-video-mock" title="Using Woodbine feed as placeholder for the demo">MOCK FEED</span>
+        ) : null}
+        {autoplay ? (
+          <span className="track-video-onair" title="Auto-playing">● LIVE</span>
         ) : null}
       </div>
       <div className="track-meta">
