@@ -7,6 +7,7 @@ import type {
   Track,
   TrackStatus,
   QueueSlot,
+  UpcomingRace,
 } from "./types";
 import { CHANNEL_LABELS } from "./types";
 import "./App.css";
@@ -54,6 +55,21 @@ export default function App() {
         ),
       }));
     }, 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  // Tick upcoming-race countdowns every 30s of real time — enough to feel alive
+  // without being noisy.
+  useEffect(() => {
+    const t = setInterval(() => {
+      setState((prev) => ({
+        ...prev,
+        upcoming: prev.upcoming.map((u) => ({
+          ...u,
+          minutesToPost: Math.max(0, u.minutesToPost - 1),
+        })),
+      }));
+    }, 30000);
     return () => clearInterval(t);
   }, []);
 
@@ -276,34 +292,94 @@ function TrackTile({
   );
 }
 
+type UpcomingFilter = "all" | "scheduled" | "unassigned" | "big10";
+
 function UpcomingSidebar({ state }: { state: AppState }) {
-  const upcoming = state.tracks
-    .filter((t) => t.status.kind === "to-jump")
-    .sort((a, b) => {
-      const am = a.status.kind === "to-jump" ? a.status.minutes : 99;
-      const bm = b.status.kind === "to-jump" ? b.status.minutes : 99;
-      return am - bm;
-    });
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<UpcomingFilter>("all");
+
+  const upcoming = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return state.upcoming
+      .filter((u) => {
+        if (filter === "scheduled" && !u.scheduledOn) return false;
+        if (filter === "unassigned" && u.scheduledOn) return false;
+        if (filter === "big10" && u.tag !== "big10") return false;
+        if (q) {
+          const hay = `${u.trackName} ${u.raceNumber} ${u.raceLabel ?? ""}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      })
+      .sort((a, b) => a.minutesToPost - b.minutesToPost);
+  }, [state.upcoming, query, filter]);
+
+  const counts = useMemo(() => {
+    return {
+      all: state.upcoming.length,
+      scheduled: state.upcoming.filter((u) => u.scheduledOn).length,
+      unassigned: state.upcoming.filter((u) => !u.scheduledOn).length,
+      big10: state.upcoming.filter((u) => u.tag === "big10").length,
+    };
+  }, [state.upcoming]);
+
   return (
-    <aside className="upcoming">
-      <div className="upcoming-head">Upcoming races · Screen Displays</div>
+    <div className="upcoming">
+      <div className="upcoming-head">
+        <span>Upcoming races</span>
+        <span className="upcoming-count">{upcoming.length}/{counts.all}</span>
+      </div>
+      <input
+        className="upcoming-search"
+        placeholder="Filter track or race…"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <div className="upcoming-filters">
+        {([
+          ["all", "All", counts.all],
+          ["scheduled", "Scheduled", counts.scheduled],
+          ["unassigned", "Unassigned", counts.unassigned],
+          ["big10", "Big 10", counts.big10],
+        ] as const).map(([key, label, n]) => (
+          <button
+            key={key}
+            className={`upcoming-filter ${filter === key ? "active" : ""}`}
+            onClick={() => setFilter(key)}
+          >
+            {label} <span className="upcoming-filter-n">{n}</span>
+          </button>
+        ))}
+      </div>
       <ul>
-        {upcoming.length === 0 && <li className="upcoming-empty">No upcoming races queued</li>}
-        {upcoming.map((t) => {
-          const mins = t.status.kind === "to-jump" ? t.status.minutes : 0;
-          return (
-            <li key={t.id}>
-              <div className="upcoming-track">{t.name}</div>
-              <div className="upcoming-meta">
-                <span>{t.race}</span>
-                <span className="upcoming-tag">{mins}m</span>
-              </div>
-              <div className="upcoming-dest">→ {t.scheduledOn ? CHANNEL_LABELS[t.scheduledOn] : "—"}</div>
-            </li>
-          );
-        })}
+        {upcoming.length === 0 && <li className="upcoming-empty">No matches</li>}
+        {upcoming.map((u) => (
+          <UpcomingRow key={u.id} race={u} />
+        ))}
       </ul>
-    </aside>
+    </div>
+  );
+}
+
+function UpcomingRow({ race }: { race: UpcomingRace }) {
+  const m = race.minutesToPost;
+  const tone = m <= 2 ? "hot" : m <= 5 ? "soon" : m <= 15 ? "mid" : "cold";
+  return (
+    <li className={`upcoming-row tone-${tone} ${race.tag ?? ""}`}>
+      <div className="upcoming-row-top">
+        <span className="upcoming-track">{race.trackName}</span>
+        <span className="upcoming-tag">{m}m</span>
+      </div>
+      <div className="upcoming-row-mid">
+        <span className="upcoming-race">{race.raceNumber}{race.raceLabel ? ` · ${race.raceLabel}` : ""}</span>
+        {race.region ? <span className="upcoming-region">{race.region}</span> : null}
+      </div>
+      <div className="upcoming-row-bot">
+        <span className="upcoming-dest">→ {race.scheduledOn ? CHANNEL_LABELS[race.scheduledOn] : "Unassigned"}</span>
+        {race.tag === "big10" ? <span className="upcoming-pill pill-big10">BIG 10</span> : null}
+        {race.tag === "feature" ? <span className="upcoming-pill pill-feature">FEATURE</span> : null}
+      </div>
+    </li>
   );
 }
 

@@ -1,7 +1,7 @@
 // Seed data for the Vegas Red Zone ops console prototype.
 // Tracks reflect actual BetMakers / Vegas Red Zone partners + flavour additions.
 
-import type { AppState, Track, Screen, ChannelQueue } from "./types";
+import type { AppState, Track, Screen, ChannelQueue, UpcomingRace } from "./types";
 
 export const seedTracks: Track[] = [
   {
@@ -21,6 +21,14 @@ export const seedTracks: Track[] = [
     race: "R7",
   },
   {
+    id: "kty",
+    name: "Kentucky Downs",
+    status: { kind: "racing" },
+    liveOn: "featured",
+    scheduledOn: null,
+    race: "R4 · Big 10 Leg 7",
+  },
+  {
     id: "prx",
     name: "Parx",
     status: { kind: "to-jump", minutes: 3 },
@@ -37,12 +45,12 @@ export const seedTracks: Track[] = [
     race: "R6",
   },
   {
-    id: "kty",
-    name: "Kentucky Downs",
-    status: { kind: "to-jump", minutes: 5 },
+    id: "sar",
+    name: "Saratoga",
+    status: { kind: "to-jump", minutes: 7 },
     liveOn: null,
-    scheduledOn: "featured",
-    race: "R4 · Big 10 Leg 7",
+    scheduledOn: "ch3",
+    race: "R9 · Allowance",
   },
 ];
 
@@ -92,6 +100,42 @@ export const seedQueues: Record<string, ChannelQueue> = {
   ],
 };
 
+export const seedUpcoming: UpcomingRace[] = [
+  // Imminent — on tiles
+  { id: "up-prx-r8",  trackName: "Parx",            raceNumber: "R8",  minutesToPost: 3,  scheduledOn: "ch1",      region: "USA" },
+  { id: "up-mth-r6",  trackName: "Monmouth",        raceNumber: "R6",  minutesToPost: 5,  scheduledOn: "ch2",      region: "USA" },
+  { id: "up-sar-r9",  trackName: "Saratoga",        raceNumber: "R9",  raceLabel: "Allowance", minutesToPost: 7, scheduledOn: "ch3", region: "USA" },
+
+  // Next 15 — the body of the book
+  { id: "up-cdx-r5",  trackName: "Churchill Downs", raceNumber: "R5",  minutesToPost: 9,  scheduledOn: "featured", tag: "big10",  region: "USA" },
+  { id: "up-glf-r7",  trackName: "Gulfstream Park", raceNumber: "R7",  minutesToPost: 11, scheduledOn: "ch1",      region: "USA" },
+  { id: "up-tam-r4",  trackName: "Tampa Bay Downs", raceNumber: "R4",  minutesToPost: 13, scheduledOn: "ch2",      region: "USA" },
+  { id: "up-kty-r5",  trackName: "Kentucky Downs",  raceNumber: "R5",  raceLabel: "Big 10 Leg 8", minutesToPost: 14, scheduledOn: "featured", tag: "big10", region: "USA" },
+  { id: "up-aqu-r6",  trackName: "Aqueduct",        raceNumber: "R6",  minutesToPost: 16, scheduledOn: "ch3",      region: "USA" },
+  { id: "up-wbn-r6",  trackName: "Woodbine",        raceNumber: "R6",  raceLabel: "Pattison Canadian Intl", minutesToPost: 17, scheduledOn: "ch1", tag: "feature", region: "CAN" },
+  { id: "up-sa-r3",   trackName: "Santa Anita",     raceNumber: "R3",  minutesToPost: 19, scheduledOn: "ch2",      region: "USA" },
+  { id: "up-dmr-r5",  trackName: "Del Mar",         raceNumber: "R5",  minutesToPost: 22, scheduledOn: "ch3",      region: "USA" },
+  { id: "up-fgr-r4",  trackName: "Fair Grounds",    raceNumber: "R4",  minutesToPost: 24, scheduledOn: null,       region: "USA" },
+  { id: "up-kty-r6",  trackName: "Kentucky Downs",  raceNumber: "R6",  raceLabel: "Big 10 Leg 9", minutesToPost: 26, scheduledOn: "featured", tag: "big10", region: "USA" },
+  { id: "up-pen-r8",  trackName: "Penn National",   raceNumber: "R8",  minutesToPost: 28, scheduledOn: "ch1",      region: "USA" },
+  { id: "up-bel-r5",  trackName: "Belmont at Aqueduct", raceNumber: "R5", minutesToPost: 31, scheduledOn: "ch2",   region: "USA" },
+  { id: "up-lrl-r4",  trackName: "Laurel Park",     raceNumber: "R4",  minutesToPost: 33, scheduledOn: null,       region: "USA" },
+  { id: "up-tgg-r7",  trackName: "Turfway Park",    raceNumber: "R7",  minutesToPost: 35, scheduledOn: "ch3",      region: "USA" },
+  { id: "up-kty-r7",  trackName: "Kentucky Downs",  raceNumber: "R7",  raceLabel: "Big 10 Leg 10 · Final", minutesToPost: 38, scheduledOn: "featured", tag: "big10", region: "USA" },
+  { id: "up-mth-r7",  trackName: "Monmouth",        raceNumber: "R7",  minutesToPost: 41, scheduledOn: null,       region: "USA" },
+  { id: "up-prx-r9",  trackName: "Parx",            raceNumber: "R9",  minutesToPost: 44, scheduledOn: "ch1",      region: "USA" },
+
+  // Tail — international + late US
+  { id: "up-mwc-r2",  trackName: "Meydan",          raceNumber: "R2",  minutesToPost: 48, scheduledOn: null,       region: "UAE" },
+  { id: "up-flm-r6",  trackName: "Flemington",      raceNumber: "R6",  minutesToPost: 52, scheduledOn: "ch2",      region: "AUS" },
+  { id: "up-rwk-r5",  trackName: "Randwick",        raceNumber: "R5",  minutesToPost: 57, scheduledOn: null,       region: "AUS" },
+  { id: "up-glf-r8",  trackName: "Gulfstream Park", raceNumber: "R8",  minutesToPost: 62, scheduledOn: "ch3",      region: "USA" },
+  { id: "up-sar-r10", trackName: "Saratoga",        raceNumber: "R10", raceLabel: "Travers Prep", minutesToPost: 68, scheduledOn: "featured", tag: "feature", region: "USA" },
+  { id: "up-cdx-r6",  trackName: "Churchill Downs", raceNumber: "R6",  minutesToPost: 73, scheduledOn: "ch1",      region: "USA" },
+  { id: "up-asc-r4",  trackName: "Ascot",           raceNumber: "R4",  minutesToPost: 81, scheduledOn: null,       region: "GBR" },
+  { id: "up-lon-r3",  trackName: "Longchamp",       raceNumber: "R3",  minutesToPost: 89, scheduledOn: null,       region: "FRA" },
+];
+
 export const initialState: AppState = {
   tracks: seedTracks,
   screens: seedScreens,
@@ -102,4 +146,5 @@ export const initialState: AppState = {
     featured: seedQueues.featured,
   },
   activeChannel: "featured",
+  upcoming: seedUpcoming,
 };

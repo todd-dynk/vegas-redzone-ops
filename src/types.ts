@@ -62,10 +62,28 @@ export interface QueueSlot {
 
 export type ChannelQueue = QueueSlot[];
 
+// A scheduled race in the upcoming book — may or may not be from a tile track.
+export interface UpcomingRace {
+  id: string;
+  trackName: string;
+  raceNumber: string; // "R4"
+  raceLabel?: string; // "The Maple Leaf", "Big 10 Leg 7", etc.
+  // Minutes until post (live-decremented)
+  minutesToPost: number;
+  // Where it's scheduled to be shown, if at all
+  scheduledOn: ChannelId | null;
+  // Optional Big 10 / tournament flag
+  tag?: "big10" | "tournament" | "feature" | null;
+  // Country / region badge
+  region?: string;
+}
+
 export interface AppState {
   tracks: Track[];
   screens: Screen[]; // library of available screens
   channelQueues: Record<ChannelId, ChannelQueue>;
   // Currently selected channel for the "Next screens" middle row
   activeChannel: ChannelId;
+  // Full upcoming-races book
+  upcoming: UpcomingRace[];
 }
