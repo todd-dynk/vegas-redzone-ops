@@ -6,6 +6,13 @@ import {
   TRACK_FEED_REAL,
   TRACK_AUTOPLAY_IDS,
 } from "./data";
+import {
+  loadSavedState,
+  saveState,
+  clearSavedState,
+  formatSavedAt,
+  type SaveMeta,
+} from "./persistence";
 import type {
   AppState,
   ChannelId,
@@ -38,9 +45,30 @@ function findScreen(screens: Screen[], id: string): Screen | undefined {
 }
 
 export default function App() {
-  const [state, setState] = useState<AppState>(initialState);
+  // Restore from localStorage if present (recovers from refresh / crash).
+  const [state, setState] = useState<AppState>(() => {
+    const { state: saved } = loadSavedState();
+    return saved ?? initialState;
+  });
+  const [savedMeta, setSavedMeta] = useState<SaveMeta | null>(() => loadSavedState().meta);
   const [now, setNow] = useState<Date>(new Date());
   const [draggingScreenId, setDraggingScreenId] = useState<string | null>(null);
+  const [savedTick, setSavedTick] = useState(0); // re-render "last saved" label
+
+  // Autosave on every state change (debounced to ~750ms).
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const meta = saveState(state);
+      setSavedMeta(meta);
+    }, 750);
+    return () => clearTimeout(t);
+  }, [state]);
+
+  // Tick the "last saved Xs ago" label every 10s.
+  useEffect(() => {
+    const t = setInterval(() => setSavedTick((n) => n + 1), 10_000);
+    return () => clearInterval(t);
+  }, []);
 
   // Live clock + tick down the queues every second
   useEffect(() => {
@@ -157,6 +185,26 @@ export default function App() {
           <span className="brand-title">VEGAS RED ZONE · OPS CONSOLE</span>
         </div>
         <div className="topbar-right">
+          <span className="save-status" title={`Last autosaved ${savedMeta ? new Date(savedMeta.savedAt).toLocaleString() : "never"}`}>
+            <span className="save-dot" />
+            Saved <span className="save-when">{savedTick >= 0 ? formatSavedAt(savedMeta?.savedAt) : ""}</span>
+          </span>
+          <button
+            className="save-btn"
+            onClick={() => { const meta = saveState(state); setSavedMeta(meta); }}
+            title="Force-save now"
+          >SAVE</button>
+          <button
+            className="save-btn danger"
+            onClick={() => {
+              if (confirm("Reset console to defaults? Local autosave will be cleared.")) {
+                clearSavedState();
+                setState(initialState);
+                setSavedMeta(null);
+              }
+            }}
+            title="Reset to defaults & clear autosave"
+          >RESET</button>
           <span className="onair">● ON AIR</span>
           <span className="clock">{now.toLocaleTimeString("en-US", { hour12: false })}</span>
         </div>

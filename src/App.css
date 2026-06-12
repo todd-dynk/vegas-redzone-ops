@@ -92,7 +92,45 @@ body {
   font-size: 13px;
   color: var(--text);
 }
-.topbar-right { display: flex; align-items: center; gap: 18px; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+
+.save-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  padding: 4px 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+.save-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--done);
+  box-shadow: 0 0 6px rgba(46,204,113,0.5);
+}
+.save-when { color: var(--text); }
+.save-btn {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.save-btn:hover { background: #1d2532; border-color: #344157; }
+.save-btn.danger { color: #ff8088; border-color: #4a2429; }
+.save-btn.danger:hover { background: #2a1418; border-color: #6b2c33; }
 .onair {
   color: var(--live);
   font-weight: 700;
