@@ -39,8 +39,30 @@ body {
 .app {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr auto auto auto;
+  grid-template-rows: auto 1fr auto;
   gap: 0;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  align-items: stretch;
+}
+.main-col { display: flex; flex-direction: column; min-width: 0; }
+.main-side {
+  border-left: 1px solid var(--line);
+  background: var(--bg-elev);
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  position: sticky;
+  top: 0;
+  max-height: calc(100vh - 40px);
+  overflow: hidden;
+}
+@media (max-width: 1100px) {
+  .main-grid { grid-template-columns: 1fr; }
+  .main-side { border-left: none; border-top: 1px solid var(--line); position: static; max-height: none; }
 }
 
 /* ============ topbar ============ */
@@ -108,11 +130,13 @@ body {
 .dim { color: var(--text-dim); font-weight: 400; text-transform: none; letter-spacing: 0; }
 
 /* ============ row 1: tracks ============ */
-.row-tracks-body { display: grid; grid-template-columns: 1fr 280px; gap: 14px; align-items: stretch; }
 .track-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
+}
+@media (max-width: 1400px) {
+  .track-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 .track-tile {
@@ -214,15 +238,16 @@ body {
 
 /* ============ upcoming sidebar ============ */
 .upcoming {
-  background: var(--bg-elev);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   min-height: 0;
   height: 100%;
   align-self: stretch;
+  flex: 1;
 }
 .upcoming-head {
   font-size: 11px;
@@ -398,8 +423,4 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* shrink fallback */
-@media (max-width: 1200px) {
-  .track-grid { grid-template-columns: repeat(3, 1fr); }
-  .row-tracks-body { grid-template-columns: 1fr; }
-}
+

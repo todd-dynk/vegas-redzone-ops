@@ -140,86 +140,92 @@ export default function App() {
         </div>
       </header>
 
-      {/* Row 1: Track tiles + upcoming sidebar */}
-      <section className="row row-tracks">
-        <div className="row-header">
-          <h2>Live streams of upcoming tracks <span className="dim">· time to jump</span></h2>
+      <div className="main-grid">
+        <div className="main-col">
+          {/* Row 1: Track tiles */}
+          <section className="row row-tracks">
+            <div className="row-header">
+              <h2>Live streams of upcoming tracks <span className="dim">· time to jump</span></h2>
+            </div>
+            <div className="track-grid">
+              {state.tracks.map((track) => (
+                <TrackTile
+                  key={track.id}
+                  track={track}
+                  onDisplay={() => setTrackAction(track, "display")}
+                  onResult={() => setTrackAction(track, "result")}
+                  onDelay={() => setTrackAction(track, "delay")}
+                />
+              ))}
+            </div>
+          </section>
+
+          {/* Row 2: Channel tabs + next-screens queue */}
+          <section className="row row-queue">
+            <div className="row-header queue-header">
+              <h2>Next screens to be displayed</h2>
+              <div className="channel-tabs">
+                {(Object.keys(CHANNEL_LABELS) as ChannelId[]).map((ch) => (
+                  <button
+                    key={ch}
+                    onClick={() => selectChannel(ch)}
+                    className={`channel-tab ${ch === activeChannel ? "active" : ""} ${
+                      ch === "featured" ? "featured" : ""
+                    }`}
+                  >
+                    {CHANNEL_LABELS[ch]}
+                    {onAirByChannel[ch] ? <span className="tab-onair">●</span> : null}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="queue-grid">
+              {activeQueue.map((slot, i) => {
+                const screen = findScreen(state.screens, slot.screenId);
+                return (
+                  <QueueSlotTile
+                    key={`${activeChannel}-${i}`}
+                    slot={slot}
+                    screen={screen}
+                    isLive={i === 0}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={() => onSlotDrop(activeChannel, i)}
+                    isDropTarget={!!draggingScreenId}
+                  />
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Row 3: Alternate screen library */}
+          <section className="row row-alt">
+            <div className="row-header">
+              <h2>
+                Alternate screens
+                <span className="dim"> · drag onto a slot, or click TAKE NOW</span>
+              </h2>
+            </div>
+            <div className="alt-grid">
+              {state.screens.map((screen) => (
+                <AlternateScreenTile
+                  key={screen.id}
+                  screen={screen}
+                  onDragStart={() => setDraggingScreenId(screen.id)}
+                  onDragEnd={() => setDraggingScreenId(null)}
+                  onTakeNow={() => takeNow(activeChannel, screen.id)}
+                  activeChannelLabel={CHANNEL_LABELS[activeChannel]}
+                />
+              ))}
+            </div>
+          </section>
         </div>
-        <div className="row-body row-tracks-body">
-          <div className="track-grid">
-            {state.tracks.map((track) => (
-              <TrackTile
-                key={track.id}
-                track={track}
-                onDisplay={() => setTrackAction(track, "display")}
-                onResult={() => setTrackAction(track, "result")}
-                onDelay={() => setTrackAction(track, "delay")}
-              />
-            ))}
-          </div>
+
+        {/* Persistent right sidebar */}
+        <aside className="main-side">
           <UpcomingSidebar state={state} />
-        </div>
-      </section>
-
-      {/* Row 2: Channel tabs + next-screens queue */}
-      <section className="row row-queue">
-        <div className="row-header queue-header">
-          <h2>Next screens to be displayed</h2>
-          <div className="channel-tabs">
-            {(Object.keys(CHANNEL_LABELS) as ChannelId[]).map((ch) => (
-              <button
-                key={ch}
-                onClick={() => selectChannel(ch)}
-                className={`channel-tab ${ch === activeChannel ? "active" : ""} ${
-                  ch === "featured" ? "featured" : ""
-                }`}
-              >
-                {CHANNEL_LABELS[ch]}
-                {onAirByChannel[ch] ? <span className="tab-onair">●</span> : null}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="queue-grid">
-          {activeQueue.map((slot, i) => {
-            const screen = findScreen(state.screens, slot.screenId);
-            return (
-              <QueueSlotTile
-                key={`${activeChannel}-${i}`}
-                slot={slot}
-                screen={screen}
-                isLive={i === 0}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={() => onSlotDrop(activeChannel, i)}
-                isDropTarget={!!draggingScreenId}
-              />
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Row 3: Alternate screen library */}
-      <section className="row row-alt">
-        <div className="row-header">
-          <h2>
-            Alternate screens
-            <span className="dim"> · drag onto a slot, or click TAKE NOW</span>
-          </h2>
-        </div>
-        <div className="alt-grid">
-          {state.screens.map((screen) => (
-            <AlternateScreenTile
-              key={screen.id}
-              screen={screen}
-              onDragStart={() => setDraggingScreenId(screen.id)}
-              onDragEnd={() => setDraggingScreenId(null)}
-              onTakeNow={() => takeNow(activeChannel, screen.id)}
-              activeChannelLabel={CHANNEL_LABELS[activeChannel]}
-            />
-          ))}
-        </div>
-      </section>
+        </aside>
+      </div>
 
       <footer className="footer">
         <span>Vegas Red Zone · Ops v0.1 · prototype only · ⌥+click any tile to inspect</span>
