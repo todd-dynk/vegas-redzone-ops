@@ -251,12 +251,18 @@ body {
   font-weight: 800;
   letter-spacing: 0.8px;
   background: rgba(0,0,0,0.7);
-  color: var(--soon);
-  border: 1px solid rgba(255,176,32,0.6);
   padding: 2px 5px;
   border-radius: 2px;
   pointer-events: auto;
   cursor: help;
+}
+.track-video-mock.badge-big10 {
+  color: var(--accent-purple);
+  border: 1px solid rgba(178,125,255,0.5);
+}
+.track-video-mock.badge-standard {
+  color: var(--accent-blue);
+  border: 1px solid rgba(78,161,255,0.5);
 }
 .track-video-onair {
   position: absolute;

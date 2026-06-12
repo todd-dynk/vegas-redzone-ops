@@ -4,6 +4,7 @@ import {
   GTX_PLAYER_BASE,
   TRACK_FEED_PARAM,
   TRACK_FEED_REAL,
+  TRACK_FEED_LABEL,
   TRACK_AUTOPLAY_IDS,
 } from "./data";
 import {
@@ -321,6 +322,7 @@ function TrackTile({
   const status = formatStatus(track.status);
   const feedParam = TRACK_FEED_PARAM[track.id];
   const isRealFeed = TRACK_FEED_REAL[track.id];
+  const feedLabel = TRACK_FEED_LABEL[track.id];
   const feedUrl = feedParam ? `${GTX_PLAYER_BASE}?fm=${feedParam}` : null;
   const autoplay = TRACK_AUTOPLAY_IDS.has(track.id);
   const [hovering, setHovering] = useState(false);
@@ -354,7 +356,16 @@ function TrackTile({
           <div className="track-video-inner">No feed</div>
         )}
         {!isRealFeed && feedUrl ? (
-          <span className="track-video-mock" title="Big 10 shared stream — swap to per-track feed once available">BIG 10 STREAM</span>
+          <span
+            className={`track-video-mock ${feedLabel === "big10" ? "badge-big10" : "badge-standard"}`}
+            title={
+              feedLabel === "big10"
+                ? "Big 10 shared stream"
+                : "Woodbine standard stream"
+            }
+          >
+            {feedLabel === "big10" ? "BIG 10" : "STANDARD"}
+          </span>
         ) : null}
         {autoplay ? (
           <span className="track-video-onair" title="Auto-playing">● LIVE</span>
