@@ -4,21 +4,21 @@
 import type { AppState, Track, Screen, ChannelQueue, UpcomingRace } from "./types";
 
 // AI TV (GTX TV Player) embed config.
-// Only WOODBINE_ONLY_DATA is confirmed working. Other tracks fall back to the
-// Woodbine feed for the prototype — swap the value when BetMakers gives us the
-// real per-track param names.
+// All 6 top-row tiles run the Big 10 stream (WOODBINE_DATA).
+// Swap individual values when BetMakers gives us per-track feed params.
 export const GTX_PLAYER_BASE = "https://wbtv.globaltote.bet/";
+export const BIG10_FEED_PARAM = "WOODBINE_DATA";
 export const TRACK_FEED_PARAM: Record<string, string> = {
-  wbn: "WOODBINE_ONLY_DATA",
-  pen: "WOODBINE_ONLY_DATA", // TODO: real Penn feed param
-  kty: "WOODBINE_ONLY_DATA", // TODO: real Kentucky Downs feed param
-  prx: "WOODBINE_ONLY_DATA", // TODO: real Parx feed param
-  mth: "WOODBINE_ONLY_DATA", // TODO: real Monmouth feed param
-  sar: "WOODBINE_ONLY_DATA", // TODO: real Saratoga feed param
+  wbn: BIG10_FEED_PARAM,
+  pen: BIG10_FEED_PARAM,
+  kty: BIG10_FEED_PARAM,
+  prx: BIG10_FEED_PARAM,
+  mth: BIG10_FEED_PARAM,
+  sar: BIG10_FEED_PARAM,
 };
-// Mark which tracks are using a real, dedicated feed vs a mock for the demo.
+// Mark which tracks are using a real, dedicated feed vs the shared Big 10 stream.
 export const TRACK_FEED_REAL: Record<string, boolean> = {
-  wbn: true,
+  wbn: false,
   pen: false,
   kty: false,
   prx: false,

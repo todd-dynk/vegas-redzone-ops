@@ -354,7 +354,7 @@ function TrackTile({
           <div className="track-video-inner">No feed</div>
         )}
         {!isRealFeed && feedUrl ? (
-          <span className="track-video-mock" title="Using Woodbine feed as placeholder for the demo">MOCK FEED</span>
+          <span className="track-video-mock" title="Big 10 shared stream — swap to per-track feed once available">BIG 10 STREAM</span>
         ) : null}
         {autoplay ? (
           <span className="track-video-onair" title="Auto-playing">● LIVE</span>
