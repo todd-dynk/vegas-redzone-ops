@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AiR.TV · Design v1 · pilot screens</title>
+  <style>
+    :root {
+      --bg: #0a0f18;
+      --bg-elev: #131a28;
+      --line: #1f2a3d;
+      --ink: #e6ebf2;
+      --dim: #8b95a5;
+      --mint: #00e5a8;
+      --mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 48px 40px 80px;
+    }
+    header {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      max-width: 1400px;
+      margin: 0 auto 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    h1 {
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink);
+      font-weight: 800;
+    }
+    h1 .accent { color: var(--mint); }
+    .meta {
+      font-size: 12px;
+      color: var(--dim);
+      font-family: var(--mono);
+      letter-spacing: 0.5px;
+    }
+    .meta-r { margin-left: auto; }
+    .intro {
+      max-width: 1400px;
+      margin: 0 auto 40px;
+      padding: 20px 24px;
+      background: var(--bg-elev);
+      border-left: 3px solid var(--mint);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .intro strong { color: var(--mint); }
+    .intro span { color: var(--dim); }
+
+    .gallery {
+      display: grid;
+      gap: 64px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .screen-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .screen-head {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .screen-num {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: 1px;
+    }
+    .screen-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .screen-note {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--dim);
+      font-family: var(--mono);
+    }
+    .frame {
+      background: #000;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    footer {
+      max-width: 1400px;
+      margin: 80px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      color: var(--dim);
+      font-family: var(--mono);
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AiR<span class="accent">.</span>TV · Design Direction v1</h1>
+    <span class="meta">Pilot · 2 screens · 1920×1080</span>
+    <span class="meta meta-r">RACELAB sponsor anchor</span>
+  </header>
+
+  <div class="intro">
+    <strong>What this is:</strong> two pilot screens to lock the design direction before the rest of the system rolls out.
+    The 30-odd other screens reuse the same canvas, header, footer, type system, and component patterns established here.
+    <br><br>
+    <span>Direction: flat dark canvas · electric mint accent (replacing green) · Anton condensed display + Inter body + JetBrains Mono numbers (all free fonts) · RACELAB as in-house sponsor anchor.</span>
+  </div>
+
+  <div class="gallery">
+    <article class="screen-card">
+      <div class="screen-head">
+        <span class="screen-num">001</span>
+        <span class="screen-title">Individual Runner · Profile</span>
+        <span class="screen-note">runner board + featured profile + form + ratings</span>
+      </div>
+      <div class="frame"><img src="001-individual-runner.png" alt="Individual Runner screen" /></div>
+    </article>
+
+    <article class="screen-card">
+      <div class="screen-head">
+        <span class="screen-num">003</span>
+        <span class="screen-title">Next To Go · Schedule</span>
+        <span class="screen-note">multi-track schedule grid · live urgency tiers</span>
+      </div>
+      <div class="frame"><img src="003-next-to-go.png" alt="Next To Go schedule" /></div>
+    </article>
+  </div>
+
+  <footer>
+    <span>AiR.TV · designed by Kev · 2026-06-12</span>
+    <span>v1 · pilot</span>
+  </footer>
+</body>
+</html>
