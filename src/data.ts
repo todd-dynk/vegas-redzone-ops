@@ -27,7 +27,9 @@ export const TRACK_FEED_REAL: Record<string, boolean> = {
 };
 // Tile slots that should auto-play the feed continuously.
 // All other tiles only play on hover (saves bandwidth / CPU during demos).
-export const TRACK_AUTOPLAY_IDS: ReadonlySet<string> = new Set(["wbn", "pen"]);
+export const TRACK_AUTOPLAY_IDS: ReadonlySet<string> = new Set([
+  "wbn", "pen", "kty", "prx", "mth", "sar",
+]);
 
 export const seedTracks: Track[] = [
   {
