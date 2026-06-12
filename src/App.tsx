@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { initialState } from "./data";
+import { initialState, GTX_PLAYER_BASE, TRACK_FEED_PARAM, TRACK_FEED_REAL } from "./data";
 import type {
   AppState,
   ChannelId,
@@ -265,6 +265,9 @@ function TrackTile({
   onDelay: () => void;
 }) {
   const status = formatStatus(track.status);
+  const feedParam = TRACK_FEED_PARAM[track.id];
+  const isRealFeed = TRACK_FEED_REAL[track.id];
+  const feedUrl = feedParam ? `${GTX_PLAYER_BASE}?fm=${feedParam}` : null;
   return (
     <div className={`track-tile ${status.tone}`}>
       <div className="track-tile-head">
@@ -272,9 +275,20 @@ function TrackTile({
         {track.liveOn ? <span className="badge badge-live">LIVE · {chShort(track.liveOn)}</span> : null}
       </div>
       <div className="track-video">
-        <div className="track-video-inner">
-          {track.status.kind === "racing" ? "▶ Live feed" : track.status.kind === "result" ? "RESULT" : "Preview"}
-        </div>
+        {feedUrl ? (
+          <iframe
+            className="track-video-iframe"
+            src={feedUrl}
+            title={`${track.name} feed`}
+            allow="autoplay; encrypted-media; picture-in-picture"
+            loading="lazy"
+          />
+        ) : (
+          <div className="track-video-inner">No feed</div>
+        )}
+        {!isRealFeed && feedUrl ? (
+          <span className="track-video-mock" title="Using Woodbine feed as placeholder for the demo">MOCK FEED</span>
+        ) : null}
       </div>
       <div className="track-meta">
         <div className="track-race">{track.race ?? ""}</div>
