@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AiR.TV · Version 2 · HPI → AiR TV Conversion</title>
+  <style>
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--ink-100);
+      margin: 0;
+      padding: var(--space-6);
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      color: var(--brand-primary);
+      font-family: var(--display);
+    }
+    a {
+      color: var(--accent-live);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .screen-link {
+      display: block;
+      margin: var(--space-3) 0;
+      padding: var(--space-3);
+      background: var(--bg-elev);
+      border-left: 3px solid var(--brand-primary);
+      border-radius: var(--space-1);
+    }
+    .screen-link:hover {
+      background: var(--bg-elev-2);
+    }
+    .screen-title {
+      font-size: var(--t-h2);
+      font-weight: 700;
+      margin-bottom: var(--space-1);
+    }
+    .screen-description {
+      font-size: var(--t-body);
+      color: var(--ink-60);
+    }
+    :root {
+      /* CSS Variables from tokens-light.css */
+      --bg: #F4F1E9;
+      --bg-elev: #FFFFFF;
+      --bg-elev-2: #FAF7EF;
+      --bg-soft: #ECE7DA;
+      --bg-dark: #0E1726;
+      --hairline: #D9D2C0;
+      --hairline-strong: #B8AE96;
+      
+      --ink-100: #0E1726;
+      --ink-80: #2A3447;
+      --ink-60: #515B70;
+      --ink-40: #828A9C;
+      --ink-20: #B6BCC9;
+      
+      --brand-primary: #C8102E;
+      --brand-secondary: #0E1726;
+      --accent-live: #C8102E;
+      --accent-hot: #E8530E;
+      --accent-gold: #C99A2C;
+      --accent-cool: #1F5BB3;
+      --accent-purple: #6B3FA0;
+      --accent-green: #1E7E3C;
+      
+      --st-racing: var(--accent-live);
+      --st-paddock: var(--accent-cool);
+      --st-loaded: var(--accent-hot);
+      --st-result: var(--brand-primary);
+      --st-delayed: #B8530E;
+      
+      --display: "Anton", "Bebas Neue", "Inter", system-ui, sans-serif;
+      --body: "Inter", system-ui, -apple-system, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      
+      --t-display-xl: 240px;
+      --t-display-lg: 160px;
+      --t-display-md: 110px;
+      --t-display-sm: 72px;
+      --t-display-xs: 48px;
+      --t-h1: 60px;
+      --t-h2: 44px;
+      --t-h3: 32px;
+      --t-h4: 24px;
+      --t-body: 22px;
+      --t-small: 17px;
+      --t-mono: 24px;
+      --t-mono-sm: 19px;
+      --t-eyebrow: 14px;
+      
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --space-9: 96px;
+    }
+  </style>
+</head>
+<body>
+  <h1>AiR.TV Version 2</h1>
+  <p>HPI Racing Designs converted to AiR.TV Light Theme</p>
+  
+  <div class="screen-link" onclick="window.location.href='field-page.html'">
+    <div class="screen-title">Field Page (Primary Racing Screen)</div>
+    <div class="screen-description">
+      Features one horse at a time in right panel with full runner list on left. 
+      Includes connections row, stats grid, and insight quote panel.
+      <br><strong>Note:</strong> Post Position and Distance Top 3 labels removed as requested.
+    </div>
+  </div>
+  
+  <div class="screen-link">
+    <div class="screen-title">RaceLab Projected Top 6</div>
+    <div class="screen-description">
+      Horizontal bar visualization showing top 6 RaceLab-rated horses with 
+      post number badges, horse names, and score-based bars.
+    </div>
+  </div>
+  
+  <div class="screen-link">
+    <div class="screen-title">Race Projection (Screen 6)</div>
+    <div class="screen-description">
+      Dimensional track visualization showing projected race outcome based on 
+      RaceLab ratings, with horses positioned by projected margin.
+    </div>
+  </div>
+  
+  <div class="screen-link">
+    <div class="screen-title">Best Historical Win % Per Post</div>
+    <div class="screen-description">
+      Horizontal bar chart showing win percentage by post position, 
+      ranked highest to lowest with color-coded bars.
+    </div>
+  </div>
+  
+  <div class="screen-link">
+    <div class="screen-title">Market Movers</div>
+    <div class="screen-description">
+      Table showing odds movement with colour-coded badges (green=shortening, 
+      red=drifting, grey=no change) and percentage change.
+    </div>
+  </div>
+  
+  <p><em>Note: Additional screens can be added following the same conversion specifications.</em></p>
+  
+  <hr style="border: none; border-top: 1px solid var(--hairline); margin: var(--space-6) 0;">
+  
+  <p>
+    <strong>Design System:</strong> AiR.TV Light Theme<br>
+    <strong>Canvas:</strong> 1920×1080<br>
+    <strong>Background:</strong> #F4F1E9 warm off-white with Background V2 swirl/texture<br>
+    <strong>Brand Color:</strong> #C8102E racing red<br>
+    <strong>Fonts:</strong> Anton (display), Inter (body), JetBrains Mono (monospace)<br>
+    <strong>Text Replacement:</strong> All "HPI" → "AiR TV"
+  </p>
+</body>
+</html>

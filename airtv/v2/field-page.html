@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AiR.TV · Field Page v2 · HPI → AiR TV Conversion</title>
+  <link rel="stylesheet" href="../tokens-light.css">
+  <style>
+    /* Additional v2 specific styles */
+    :root {
+      /* Background V2 variables - subtle swirl/texture based on HPI spec */
+      --bg-v2-base: #F4F1E9;
+      --bg-v2-swirl: rgba(200, 16, 46, 0.06); /* subtle red swirl */
+      --bg-v2-glow: rgba(0, 229, 168, 0.08); /* soft mint glow from centre-right */
+    }
+    
+    .container {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      background: 
+        /* Background V2: Base */
+        var(--bg-v2-base),
+        /* Background V2: Organic swirl pattern (simulated) */
+        radial-gradient(ellipse at center, var(--bg-v2-swirl) 0%, transparent 50%),
+        /* Background V2: Centre-right glow */
+        radial-gradient(circle at 70% 40%, var(--bg-v2-glow) 0%, transparent 70%);
+      overflow: hidden;
+      font-family: var(--body);
+      color: var(--ink-100);
+    }
+    
+    /* Header - AiR.TV standard */
+    .air-header {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 84px;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto auto;
+      align-items: center;
+      gap: var(--space-5);
+      padding: 0 var(--space-6);
+      background: var(--bg-dark);
+      color: var(--bg);
+      z-index: 10;
+    }
+    
+    .air-logo {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+      font-family: var(--display);
+      font-size: 42px;
+      letter-spacing: 1.5px;
+      line-height: 1;
+    }
+    .air-logo .air-tv { color: #fff; }
+    .air-logo .air-dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      background: var(--brand-primary);
+      border-radius: 50%;
+      margin: 0 5px;
+      box-shadow: 0 0 18px var(--brand-primary);
+      transform: translateY(-5px);
+    }
+    
+    .air-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      color: #fff;
+      font-size: var(--t-h4);
+      font-weight: 600;
+    }
+    .air-meta .meta-sep { color: var(--ink-40); font-size: 16px; font-weight: 400; }
+    .air-meta .meta-track { color: #fff; font-weight: 900; letter-spacing: 0.5px; }
+    .air-meta .meta-conditions { color: var(--ink-20); font-weight: 500; }
+    
+    .air-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 52px;
+      padding: 0 18px;
+      border-radius: 4px;
+      font-family: var(--display);
+      font-size: 34px;
+      letter-spacing: 2px;
+      line-height: 1;
+      border: 1px solid transparent;
+    }
+    .air-chip.chip-mtp {
+      background: var(--accent-hot);
+      color: #fff;
+    }
+    .air-chip.chip-mtp .num { color: #fff; }
+    .air-chip.chip-channel {
+      background: #1f2a3d;
+      border-color: #2d3a55;
+      color: #fff;
+    }
+    .air-chip.chip-channel .label { color: #B6BCC9; font-family: var(--body); font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+    .air-chip.chip-live {
+      background: var(--brand-primary);
+      color: #fff;
+      box-shadow: 0 0 22px rgba(200,16,46,0.5);
+    }
+    .air-chip.chip-live .dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #fff;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    
+    .race-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px; height: 52px;
+      background: var(--brand-primary);
+      color: #fff;
+      font-family: var(--display);
+      font-size: 36px;
+      font-weight: 400;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      line-height: 1;
+    }
+    
+    /* Footer - AiR.TV standard */
+    .air-footer {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 64px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: var(--space-5);
+      padding: 0 var(--space-6);
+      background: var(--bg-dark);
+      color: #fff;
+      z-index: 10;
+    }
+    
+    .sponsor-lockup {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink-20);
+      font-size: 15px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .sponsor-lockup .by { color: var(--ink-40); }
+    .sponsor-lockup .mark {
+      font-family: var(--display);
+      font-size: 26px;
+      letter-spacing: 2.5px;
+      color: #fff;
+      position: relative;
+    }
+    .sponsor-lockup .mark::after {
+      content: "";
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 2px;
+      background: var(--brand-primary);
+    }
+    
+    .data-ticker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink-40);
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: 1px;
+      overflow: hidden;
+    }
+    .data-ticker .pulse {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--brand-primary);
+      box-shadow: 0 0 10px var(--brand-primary);
+      animation: pulse 1.5s infinite;
+    }
+    
+    .clock {
+      font-family: var(--display);
+      font-size: 36px;
+      color: #fff;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+    
+    /* Main Content Area */
+    .main-content {
+      position: absolute;
+      top: 84px;
+      bottom: 64px;
+      left: 0;
+      right: 0;
+      display: flex;
+      gap: var(--space-4);
+      padding: var(--space-4);
+    }
+    
+    /* Left Panel - Full Runner List */
+    .left-panel {
+      flex: 1;
+      background: var(--bg-elev);
+      border-radius: var(--space-1);
+      overflow-y: auto;
+      padding: var(--space-3);
+    }
+    
+    .runner-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-2) var(--space-3);
+      margin-bottom: var(--space-1);
+      background: var(--bg-soft);
+      border-radius: var(--space-1);
+    }
+    
+    .runner-item:hover {
+      background: var(--bg-elev-2);
+    }
+    
+    .runner-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    
+    .runner-post-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: var(--brand-primary);
+      color: #002a1f; /* dark green for contrast on red */
+      font-family: var(--display);
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: var(--space-1);
+    }
+    
+    .runner-name {
+      font-family: var(--body);
+      font-size: var(--t-body);
+      font-weight: 600;
+    }
+    
+    .runner-details {
+      font-family: var(--body);
+      font-size: var(--t-small);
+      color: var(--ink-60);
+    }
+    
+    .runner-odds {
+      font-family: var(--mono);
+      font-size: var(--t-mono);
+      font-weight: 600;
+    }
+    
+    /* Right Panel - Featured Horse */
+    .right-panel {
+      flex: 0 0 400px;
+      background: var(--bg-elev);
+      border-radius: var(--space-1);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+    
+    .featured-horse-panel {
+      background: var(--bg);
+      border: 1px solid var(--hairline);
+      border-radius: var(--space-2);
+      padding: var(--space-4);
+    }
+    
+    .horse-name {
+      font-family: var(--display);
+      font-size: var(--t-display-lg); /* 160px */
+      font-weight: 800;
+      color: var(--ink-100);
+      margin-bottom: var(--space-1);
+      letter-spacing: -0.5px; /* tight for large text */
+    }
+    
+    .sire-dam {
+      font-family: var(--body);
+      font-size: var(--t-body);
+      color: var(--ink-60);
+      margin-bottom: var(--space-3);
+    }
+    
+    .connections-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-3);
+      padding: var(--space-2) 0;
+      border-top: 1px solid var(--hairline);
+      border-bottom: 1px solid var(--hairline);
+    }
+    
+    .connection-label {
+      font-family: var(--body);
+      font-size: var(--t-body);
+      color: var(--ink-80);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .connection-value {
+      font-family: var(--body);
+      font-size: var(--t-body);
+      color: var(--ink-100);
+      font-weight: 500;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+    
+    .stat-header {
+      font-family: var(--display);
+      font-size: var(--t-eyebrow);
+      color: var(--ink-40);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .stat-value {
+      font-family: var(--mono);
+      font-size: var(--t-mono);
+      color: var(--ink-100);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Insight Quote Panel */
+    .insight-panel {
+      background: var(--bg-dark);
+      border: 1px solid var(--hairline);
+      border-radius: var(--space-2);
+      padding: var(--space-4);
+      position: relative;
+    }
+    
+    .insight-panel::before {
+      content: "“";
+      position: absolute;
+      top: var(--space-2);
+      left: var(--space-2);
+      font-size: 48px;
+      color: var(--brand-primary);
+      opacity: 0.3;
+      font-family: var(--display);
+    }
+    
+    .insight-panel::after {
+      content: "”";
+      position: absolute;
+      bottom: var(--space-2);
+      right: var(--space-2);
+      font-size: 48px;
+      color: var(--brand-primary);
+      opacity: 0.3;
+      font-family: var(--display);
+    }
+    
+    .post-number-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: var(--brand-primary);
+      color: #002a1f; /* dark green for contrast on red */
+      font-family: var(--display);
+      font-size: var(--t-display-sm); /* 72px */
+      font-weight: 700;
+      border-radius: var(--space-1);
+      margin-bottom: var(--space-3);
+    }
+    
+    .insight-text {
+      font-family: var(--body);
+      font-size: var(--t-body);
+      color: var(--ink-80);
+      line-height: 1.6;
+    }
+    
+    /* Responsive adjustments for smaller screens */
+    @media (max-width: 1920px) {
+      .horse-name { font-size: calc(160px * 0.8); } /* 128px */
+      .post-number-badge { 
+        width: calc(48px * 0.8); 
+        height: calc(48px * 0.8); 
+        font-size: calc(72px * 0.8); 
+      }
+      .insight-panel::before,
+      .insight-panel::after { font-size: calc(48px * 0.8); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="air-header">
+      <div class="air-logo">
+        <span class="air-tv">AiR</span>
+        <span class="air-dot"></span>
+        <span class="air-tv">.TV</span>
+      </div>
+      <div class="air-meta">
+        <span class="meta-track">WOODBINE</span>
+        <span class="meta-sep">|</span>
+        <span class="meta-conditions">Fast • 6f</span>
+      </div>
+      <div class="air-chip chip-mtp">
+        <span class="label">MTP</span>
+        <span class="num">12</span>
+      </div>
+      <div class="air-chip chip-channel">
+        <span class="label">CH 1</span>
+        <span class="num">Featured · Vegas Red Zone</span>
+      </div>
+      <div class="air-chip chip-live">
+        <span class="label">LIVE</span>
+        <span class="dot"></span>
+        <span class="num">AiR TV</span>
+      </div>
+      <div class="race-badge">10</div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Left Panel - Runner List -->
+      <section class="left-panel">
+        <h2 class="eyebrow" style="color: var(--ink-60); text-transform: uppercase; letter-spacing: 1px; font-size: var(--t-eyebrow); margin-bottom: var(--space-3);">
+          FIELD RUNNERS
+        </h2>
+        <div class="runner-item">
+          <div class="runner-info">
+            <div class="runner-post-badge">1</div>
+            <div>
+              <div class="runner-name">Dancin Mary Marie</div>
+              <div class="runner-details">by Uncle Mo - Marie's Vision</div>
+            </div>
+          </div>
+          <div class="runner-odds">5/2</div>
+        </div>
+        <div class="runner-item">
+          <div class="runner-info">
+            <div class="runner-post-badge">2</div>
+            <div>
+              <div class="runner-name">Midnight Bourbon</div>
+              <div class="runner-details">by Tiznow - Midnight Lily</div>
+            </div>
+          </div>
+          <div class="runner-odds">3/1</div>
+        </div>
+        <div class="runner-item">
+          <div class="runner-info">
+            <div class="runner-post-badge">3</div>
+            <div>
+              <div class="runner-name">Hot Rod Charlie</div>
+              <div class="runner-details">by Oxbow - Sioux Nation</div>
+            </div>
+          </div>
+          <div class="runner-odds">7/2</div>
+        </div>
+        <!-- More runners would be listed here -->
+      </section>
+      
+      <!-- Right Panel - Featured Horse & Insight -->
+      <section class="right-panel">
+        <!-- Featured Horse Panel -->
+        <section class="featured-horse-panel">
+          <h1 class="horse-name">Dancin Mary Marie</h1>
+          <div class="sire-dam">by Uncle Mo - Marie's Vision</div>
+          
+          <div class="connections-row">
+            <div>
+              <div class="connection-label">JOCKEY</div>
+              <div class="connection-value">I. Ortiz Jr.</div>
+            </div>
+            <div>
+              <div class="connection-label">TRAINER</div>
+              <div class="connection-value">S. M. Asmussen</div>
+            </div>
+            <div>
+              <div class="connection-label">OWNER</div>
+              <div class="connection-value">WinStar Farm</div>
+            </div>
+          </div>
+          
+          <div class="stats-grid">
+            <div>
+              <div class="stat-header">STRIKE RATE</div>
+              <div class="stat-value">38%</div>
+            </div>
+            <div>
+              <div class="stat-header">FIELD RANK</div>
+              <div class="stat-value">1</div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Insight Quote Panel -->
+        <section class="insight-panel">
+          <div class="post-number-badge">1</div>
+          <p class="insight-text">
+            Dancin Mary Marie produced an eye catching run when 2nd beaten by 3/4L last start at the track. 
+            Has a great burst of speed late.
+          </p>
+        </section>
+      </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="air-footer">
+      <div class="sponsor-lockup">
+        <span class="by">BY</span>
+        <span class="mark">RACELAB</span>
+      </div>
+      <div class="data-ticker">
+        <span>WOODBINE • R10 • $250,000 GTD</span>
+        <span class="pulse"></span>
+        <span>POST TIME: 4:45 PM ET</span>
+      </div>
+      <div class="clock">4:32</div>
+    </footer>
+  </div>
+</body>
+</html>
