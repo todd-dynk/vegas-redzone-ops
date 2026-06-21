@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AiR.TV · Design v1 · 10 screens</title>
+  <style>
+    :root {
+      --bg: #0a0f18;
+      --bg-elev: #131a28;
+      --line: #1f2a3d;
+      --ink: #e6ebf2;
+      --dim: #8b95a5;
+      --mint: #00e5a8;
+      --red: #C8102E;
+      --mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 48px 40px 80px;
+    }
+    header {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      max-width: 1500px;
+      margin: 0 auto 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    h1 {
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ink);
+      font-weight: 800;
+    }
+    h1 .accent { color: var(--red); }
+    .meta {
+      font-size: 12px;
+      color: var(--dim);
+      font-family: var(--mono);
+      letter-spacing: 0.5px;
+    }
+    .meta-r { margin-left: auto; }
+
+    .intro {
+      max-width: 1500px;
+      margin: 0 auto 36px;
+      padding: 20px 24px;
+      background: var(--bg-elev);
+      border-left: 3px solid var(--red);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .intro strong { color: var(--red); }
+    .intro span { color: var(--dim); }
+
+    .toc {
+      max-width: 1500px;
+      margin: 0 auto 48px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+    .toc a {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 14px 16px;
+      background: var(--bg-elev);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--red);
+      border-radius: 3px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .toc a:hover { background: #1a2233; border-left-color: #ff4d63; }
+    .toc a .num { font-family: var(--mono); font-size: 11px; color: var(--dim); letter-spacing: 1px; }
+
+    .gallery {
+      display: grid;
+      gap: 56px;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+    .screen-card { display: flex; flex-direction: column; gap: 16px; scroll-margin-top: 32px; }
+    .screen-head {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .screen-num {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--red);
+      letter-spacing: 1.5px;
+      font-weight: 700;
+    }
+    .screen-title { font-size: 18px; font-weight: 700; letter-spacing: 0.3px; }
+    .screen-note { margin-left: auto; font-size: 12px; color: var(--dim); font-family: var(--mono); }
+    .frame {
+      background: #000;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .frame img { display: block; width: 100%; height: auto; }
+
+    .divider {
+      max-width: 1500px;
+      margin: 56px auto 24px;
+      padding: 14px 20px;
+      background: var(--bg-elev);
+      border-left: 3px solid var(--mint);
+      border-radius: 3px;
+      font-size: 13px;
+      color: var(--dim);
+      letter-spacing: 0.3px;
+    }
+    .divider strong { color: var(--mint); font-size: 14px; letter-spacing: 0.5px; }
+
+    footer {
+      max-width: 1500px;
+      margin: 80px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+      color: var(--dim);
+      font-family: var(--mono);
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AiR<span class="accent">.</span>TV · Design Direction v1</h1>
+    <span class="meta">10 screens · 1920×1080 · LIGHT theme primary</span>
+    <span class="meta meta-r">RACELAB sponsor anchor</span>
+  </header>
+
+  <div class="intro">
+    <strong>10 pilot screens.</strong><br><br>
+    <span>Off-white canvas built for Vegas casino sportsbook displays. Racing red brand, dark navy header/footer, oversized type, RACELAB anchored as the in-house cross-sell. Anton + Inter + JetBrains Mono (all free). Same design system across every screen.</span>
+  </div>
+
+  <div class="toc">
+    <a href="#s001"><span class="num">001</span>Individual Runner</a>
+    <a href="#s002"><span class="num">002</span>Live Race · vision + leaders</a>
+    <a href="#s003"><span class="num">003</span>Next To Go · schedule</a>
+    <a href="#s004"><span class="num">004</span>Top Rated · career</a>
+    <a href="#s005"><span class="num">005</span>Speed Map</a>
+    <a href="#s006"><span class="num">006</span>Projected Top 6</a>
+    <a href="#s007"><span class="num">007</span>Jackpot · Pick 6</a>
+    <a href="#s008"><span class="num">008</span>Live Update · jockey</a>
+    <a href="#s009"><span class="num">009</span>Race Result · dividends</a>
+    <a href="#s010"><span class="num">010</span>Track Live · positions</a>
+  </div>
+
+  <div class="gallery">
+    <article id="s001" class="screen-card">
+      <div class="screen-head"><span class="screen-num">001</span><span class="screen-title">Individual Runner · Profile</span><span class="screen-note">runner board + featured profile + form + ratings</span></div>
+      <div class="frame"><img src="001-individual-runner-light.png" alt="" /></div>
+    </article>
+
+    <article id="s002" class="screen-card">
+      <div class="screen-head"><span class="screen-num">002</span><span class="screen-title">Live Race · Vision + Lower Third</span><span class="screen-note">live vision area · leaders ribbon · live pool</span></div>
+      <div class="frame"><img src="002-live-race-light.png" alt="" /></div>
+    </article>
+
+    <article id="s003" class="screen-card">
+      <div class="screen-head"><span class="screen-num">003</span><span class="screen-title">Next To Go · Schedule</span><span class="screen-note">multi-track schedule grid · urgency tiers · delayed state</span></div>
+      <div class="frame"><img src="003-next-to-go-light.png" alt="" /></div>
+    </article>
+
+    <article id="s004" class="screen-card">
+      <div class="screen-head"><span class="screen-num">004</span><span class="screen-title">Top Rated · Career</span><span class="screen-note">RACELAB best overall career rating · leaderboard 2×2</span></div>
+      <div class="frame"><img src="004-top-rated-light.png" alt="" /></div>
+    </article>
+
+    <article id="s005" class="screen-card">
+      <div class="screen-head"><span class="screen-num">005</span><span class="screen-title">Speed Map</span><span class="screen-note">projected early-speed positioning · 10k sims · top 4 list</span></div>
+      <div class="frame"><img src="005-early-speed-light.png" alt="" /></div>
+    </article>
+
+    <article id="s006" class="screen-card">
+      <div class="screen-head"><span class="screen-num">006</span><span class="screen-title">Projected Top 6</span><span class="screen-note">RACELAB engine · win probability · 3×2 card grid</span></div>
+      <div class="frame"><img src="006-projected-top-6-light.png" alt="" /></div>
+    </article>
+
+    <article id="s007" class="screen-card">
+      <div class="screen-head"><span class="screen-num">007</span><span class="screen-title">Jackpot · Pick 6</span><span class="screen-note">hero pool number · live legs sidebar · next-leg alert</span></div>
+      <div class="frame"><img src="007-jackpot-light.png" alt="" /></div>
+    </article>
+
+    <article id="s008" class="screen-card">
+      <div class="screen-head"><span class="screen-num">008</span><span class="screen-title">Live Update · Jockey Spotlight</span><span class="screen-note">narrative story card · next-ride card · combo form</span></div>
+      <div class="frame"><img src="008-live-update-light.png" alt="" /></div>
+    </article>
+
+    <article id="s009" class="screen-card">
+      <div class="screen-head"><span class="screen-num">009</span><span class="screen-title">Race Result · Dividends</span><span class="screen-note">podium · dividends · sectional timing strip</span></div>
+      <div class="frame"><img src="009-race-result-light.png" alt="" /></div>
+    </article>
+
+    <article id="s010" class="screen-card">
+      <div class="screen-head"><span class="screen-num">010</span><span class="screen-title">Track Live · Live Positioning</span><span class="screen-note">SVG track diagram with horses · live order · pace data</span></div>
+      <div class="frame"><img src="010-track-visualisation-light.png" alt="" /></div>
+    </article>
+  </div>
+
+  <div class="divider">
+    <strong>DARK theme reference</strong> — for ops console / mobile / in-app use. Same design system, charcoal canvas + electric mint.
+  </div>
+
+  <div class="gallery">
+    <article class="screen-card">
+      <div class="screen-head"><span class="screen-num">001 · D</span><span class="screen-title">Individual Runner · DARK</span><span class="screen-note">reference</span></div>
+      <div class="frame"><img src="001-individual-runner.png" alt="" /></div>
+    </article>
+    <article class="screen-card">
+      <div class="screen-head"><span class="screen-num">003 · D</span><span class="screen-title">Next To Go · DARK</span><span class="screen-note">reference</span></div>
+      <div class="frame"><img src="003-next-to-go.png" alt="" /></div>
+    </article>
+  </div>
+
+  <footer>
+    <span>AiR.TV · designed by Kev · 2026-06-12</span>
+    <span>v1 · 10 light · 2 dark reference</span>
+  </footer>
+</body>
+</html>
